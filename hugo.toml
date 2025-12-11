@@ -14,15 +14,9 @@ theme = "arcotorre-theme"
   
 [menu]
   [[menu.main]]
-    identifier = "home"
-    name = "🏠 Home"
-    url = "/"
-    weight = 1
-
-  [[menu.main]]
     identifier = "circolo"
     name = "Circolo"
-    weight = 2
+    weight = 1
   [[menu.main]]
     parent = "circolo"
     name = "Struttura"
@@ -52,22 +46,27 @@ theme = "arcotorre-theme"
   [[menu.main]]
     identifier = "tornei"
     name = "Tornei"
-    weight = 3
+    weight = 2
+  [[menu.main]]
+    parent = "tornei"
+    name = "C.I.S."
+    url = "/cis/"
+    weight = 1
   [[menu.main]]
     parent = "tornei"
     name = "Tornei e bandi"
     url = "/tornei/"
-    weight = 1
+    weight = 2
   [[menu.main]]
     parent = "tornei"
     name = "Archivio risultati"
     url = "/tornei/archivio/"
-    weight = 2
+    weight = 3
 
   [[menu.main]]
     identifier = "tecnica"
     name = "Sezione Tecnica"
-    weight = 4
+    weight = 3
   [[menu.main]]
     parent = "tecnica"
     name = "Partite dei soci"
@@ -100,28 +99,39 @@ theme = "arcotorre-theme"
     weight = 6
 
   [[menu.main]]
-    identifier = "cis"
-    name = "C.I.S."
-    url = "/cis/"
-    weight = 5
-
-  [[menu.main]]
     identifier = "articoli"
     name = "Articoli"
     url = "/articoli/"
-    weight = 6
+    weight = 4
+
+  [[menu.main]]
+    identifier = "galleria"
+    name = "Galleria"
+    url = "/galleria/"
+    weight = 5
 
   [[menu.main]]
     identifier = "contatti"
     name = "Contatti"
+    weight = 6
+  [[menu.main]]
+    parent = "contatti"
+    name = "Info e recapiti"
     url = "/contatti/"
-    weight = 7
+    weight = 1
+  [[menu.main]]
+    parent = "contatti"
+    name = "Links utili"
+    url = "/links/"
+    weight = 2
 
   [[menu.main]]
-    identifier = "links"
-    name = "Links"
-    url = "/links/"
-    weight = 8
+    identifier = "calendario"
+    name = "📅 Calendario"
+    url = "/circolo/calendario/"
+    weight = 7
+    [menu.main.params]
+      class = "cta-button"
 
 [taxonomies]
   tag = "tags"

@@ -1,0 +1,101 @@
+{{ define "main" }}
+<header class="page-header">
+    <h1 class="page-title">{{ .Title }}</h1>
+    {{ with .Params.subtitle }}
+    <p class="page-subtitle">{{ . }}</p>
+    {{ end }}
+</header>
+
+<p>{{ .Content }}</p>
+
+<section class="gallery-section">
+    <div class="gallery-grid">
+        {{/* Cerca tutte le immagini nella cartella galleria */}}
+        {{ $images := .Resources.Match "*.{jpg,jpeg,png,gif,webp}" }}
+        {{ if $images }}
+            {{ range $images }}
+            <div class="gallery-item" onclick="openLightbox('{{ .RelPermalink }}', '{{ .Title }}')">
+                <img src="{{ .RelPermalink }}" alt="{{ .Title }}" loading="lazy">
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-title">{{ .Title }}</div>
+                </div>
+            </div>
+            {{ end }}
+        {{ else }}
+            {{/* Placeholder se non ci sono ancora immagini */}}
+            <div class="gallery-item">
+                <div class="gallery-placeholder">♟</div>
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-title">2° Memorial Guidi Colombi</div>
+                    <div class="gallery-item-date">Maggio 2024</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">♞</div>
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-title">Torneo di Natale</div>
+                    <div class="gallery-item-date">Dicembre 2023</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">♜</div>
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-title">Campionato Interno</div>
+                    <div class="gallery-item-date">2023</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">♛</div>
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-title">Serata sociale</div>
+                    <div class="gallery-item-date">2023</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">♚</div>
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-title">Simultanea</div>
+                    <div class="gallery-item-date">2022</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-placeholder">♝</div>
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-title">Corso giovani</div>
+                    <div class="gallery-item-date">2022</div>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+</section>
+
+<div class="info-section" style="margin-top: 2rem;">
+    <h3>📸 Vuoi contribuire?</h3>
+    <p>Hai foto di eventi del circolo? Inviale a <a href="mailto:arcotorre@gmail.com">arcotorre@gmail.com</a> e le pubblicheremo nella galleria!</p>
+</div>
+
+<!-- Lightbox per visualizzare le immagini ingrandite -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<script>
+function openLightbox(src, caption) {
+    document.getElementById('lightbox').classList.add('active');
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+});
+</script>
+{{ end }}
