@@ -1,0 +1,34 @@
+<footer class="site-footer">
+    <div class="footer-accent"></div>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h4>A.S.D. Arcotorre Scacchi</h4>
+            <p>{{ .Site.Params.address }}</p>
+            <p><a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a></p>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Gioca Online</h4>
+            <a href="https://lichess.org/" target="_blank" rel="noopener" class="footer-link lichess">
+                <span class="link-icon">♟</span> Lichess
+            </a>
+            <a href="{{ .Site.Params.vesusOrg }}" target="_blank" rel="noopener" class="footer-link vesus">
+                <span class="link-icon">🏆</span> Vesus.org
+            </a>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Sponsor</h4>
+            {{ if .Site.Params.sponsor }}
+            <a href="{{ .Site.Params.sponsor }}" target="_blank" rel="noopener">
+                <img src="{{ "images/sponsor.png" | relURL }}" alt="Sponsor" class="sponsor-logo">
+            </a>
+            {{ end }}
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; {{ now.Year }} A.S.D. Arcotorre Scacchi Chieri</p>
+        <p class="credits">Sito realizzato con <a href="https://gohugo.io" target="_blank">Hugo</a></p>
+    </div>
+</footer>

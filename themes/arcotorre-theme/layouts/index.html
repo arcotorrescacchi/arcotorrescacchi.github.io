@@ -1,0 +1,26 @@
+{{ define "main" }}
+<section class="hero">
+    <h1 class="hero-title">A.S.D. Arcotorre Scacchi</h1>
+    <p class="hero-subtitle">Circolo Scacchistico di Chieri dal 1985</p>
+    <a href="/circolo/iscrizione/" class="hero-cta">Unisciti a noi</a>
+</section>
+
+<section class="news-section">
+    <h2 class="section-title">Ultime Notizie</h2>
+    
+    <div class="news-grid">
+        {{ range first 4 (where .Site.RegularPages "Section" "articoli") }}
+        <article class="news-card">
+            <div class="news-card-content">
+                <span class="news-date">{{ .Date.Format "2 January 2006" }}</span>
+                <h3 class="news-title">{{ .Title }}</h3>
+                <p class="news-excerpt">{{ .Summary | truncate 150 }}</p>
+                <a href="{{ .Permalink }}" class="news-link">Leggi tutto →</a>
+            </div>
+        </article>
+        {{ end }}
+    </div>
+</section>
+
+{{ .Content }}
+{{ end }}
