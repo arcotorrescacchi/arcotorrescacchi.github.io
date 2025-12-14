@@ -7,13 +7,13 @@ subtitle: "Diventa socio"
 
 L'iscrizione all'A.S.D. Arcotorre Scacchi Chieri è aperta a tutti, dai principianti ai giocatori esperti.
 
-### Quote associative 2024-2025
+### Quote associative 2026
 
-| Categoria | Quota |
-|-----------|-------|
-| Socio ordinario | €XX |
-| Socio Under 18 | €XX |
-| Socio sostenitore | €XX |
+| Categoria | Quota | Note |
+|-----------|-------|--|
+| Socio ordinario | € 25 | |
+| Socio Under 18 | € 15 | Per chi ha meno di 18 anni il 1° gennaio 2026 |
+| Socio sostenitore | mille ! | |
 
 ### Cosa include l'iscrizione
 
@@ -21,6 +21,7 @@ L'iscrizione all'A.S.D. Arcotorre Scacchi Chieri è aperta a tutti, dai principi
 - Partecipazione ai tornei interni
 - Tessera FSI (opzionale, con supplemento)
 - Utilizzo del materiale del circolo
+- Utilizzo biblioteca del circolo
 - Accesso alla sezione tecnica del sito
 
 ### Come procedere

@@ -1005,3 +1005,124 @@ body {
 .mt-2 { margin-top: var(--space-md); }
 .mb-1 { margin-bottom: var(--space-sm); }
 .mb-2 { margin-bottom: var(--space-md); }
+
+
+/* ========================================
+   TORNEI - STILI AGGIUNTIVI
+   Aggiungi questi stili in fondo a style.css
+   ======================================== */
+
+/* Titolo sezione evidenziato */
+.section-title-evidenza {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--chieri-red-dark);
+    margin-bottom: var(--space-md);
+    padding: 0.8rem 1.2rem;
+    background: linear-gradient(135deg, rgba(196, 30, 58, 0.1) 0%, rgba(212, 169, 66, 0.1) 100%);
+    border-left: 5px solid var(--chieri-red);
+    border-radius: 0 8px 8px 0;
+}
+
+/* Sezione tornei in corso */
+.tornei-in-corso {
+    margin-bottom: var(--space-xl);
+}
+
+/* Card torneo in corso - evidenziata */
+.torneo-card.torneo-in-corso {
+    border-top: 5px solid var(--chieri-red);
+    position: relative;
+    background: linear-gradient(135deg, #fff 0%, #fff9f0 100%);
+}
+
+.torneo-status {
+    position: absolute;
+    top: -5px;
+    right: 20px;
+    background: var(--chieri-red);
+    color: white;
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
+    animation: pulse-status 2s infinite;
+}
+
+@keyframes pulse-status {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.torneo-info {
+    color: var(--color-text);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+}
+
+.torneo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin: var(--space-md) 0;
+}
+
+.bando-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--chieri-gold);
+    color: var(--chieri-red-dark);
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.bando-link:hover {
+    background: var(--chieri-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 169, 66, 0.4);
+}
+
+.torneo-prossimo-turno {
+    background: rgba(212, 169, 66, 0.15);
+    border: 1px solid var(--chieri-gold);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    color: var(--color-dark);
+}
+
+.torneo-prossimo-turno strong {
+    color: var(--chieri-red);
+}
+
+/* Sezione descrizione */
+.sezione-desc {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    margin-top: -0.5rem;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid #eee;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .torneo-actions {
+        flex-direction: column;
+    }
+    
+    .torneo-actions a {
+        text-align: center;
+    }
+    
+    .torneo-status {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.7rem;
+    }
+}

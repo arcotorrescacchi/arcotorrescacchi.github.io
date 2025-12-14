@@ -133,6 +133,12 @@ theme = "arcotorre-theme"
     [menu.main.params]
       class = "cta-button"
 
+[[menu.main]]
+  identifier = "quiz"
+  name = "🧩 Quiz"
+  url = "/quiz/"
+  weight = 9
+
 [taxonomies]
   tag = "tags"
   category = "categories"

@@ -3,34 +3,45 @@ title: "Tornei e Bandi"
 subtitle: "Prossimi tornei e iscrizioni"
 ---
 
-## Tornei in programma
+<section class="tornei-in-corso">
+<h2 class="section-title-evidenza">🏆 Tornei in corso</h2>
 
-### Tornei organizzati dal circolo
+<div class="torneo-card torneo-in-corso">
+    <div class="torneo-status">IN CORSO</div>
+    <h3 class="torneo-title">Torneo Sociale Arcotorre 2025-26</h3>
+    <p class="torneo-date">📅 14 Novembre 2025 - 20 Febbraio 2026</p>
+    <p class="torneo-info">
+        <strong>7 turni</strong> • Cadenza 60'+30" • Sistema svizzero olandese<br>
+        Venerdì sera ore 21:30 presso la sede del circolo
+    </p>
+    <div class="torneo-actions">
+        <a href="https://vesus.org/tournament/KOF7aIj2?pairingsRound=3&selectedTab=tournament.pairings" class="vesus-link" target="_blank">🏆 Abbinamenti e risultati su Vesus</a>
+        <a href="/download/bandi/Sociale-Arcotorre_2025-26.pdf" class="bando-link" target="_blank">📄 Scarica il bando</a>
+    </div>
+    <div class="torneo-prossimo-turno">
+        <strong>Prossimo turno:</strong> IV Turno - Venerdì 9 Gennaio 2026
+    </div>
+</div>
+
+</section>
+
+---
+
+<section class="tornei-programma">
+<h2 class="section-title-evidenza">📋 Prossimi tornei</h2>
+<p class="sezione-desc">Tornei organizzati dal circolo</p>
 
 <div class="torneo-card">
     <h3 class="torneo-title">3° Memorial "Gaetano Guidi Colombi"</h3>
     <p class="torneo-date">📅 Maggio 2025</p>
-    <p class="torneo-description">Torneo semilampo aperto a tutti. Cadenza 10'+3".</p>
-    <a href="https://vesus.org/tournament/XXXXX" target="_blank" class="vesus-link">
-        🏆 Iscriviti su Vesus
-    </a>
+    <p>Torneo semilampo aperto a tutti. Cadenza 10'+3".</p>
+    <a href="#" class="vesus-link">🏆 Iscriviti su Vesus</a>
 </div>
 
-### Tornei a cui partecipiamo
-
-Seguiamo regolarmente i tornei del circuito piemontese. Ecco i prossimi appuntamenti:
-
-- [Gran Prix Astiscacchi](https://vesus.org/) - Tornei blitz mensili
-- Campionati provinciali e regionali FSI
-
-### Bandi disponibili
-
-I bandi dei nostri tornei sono pubblicati anche su [Vesus.org](https://vesus.org).
+</section>
 
 ---
 
-## Come iscriversi ai tornei
+## Tornei esterni
 
-1. **Tornei interni**: iscrizione in sede o contattando il direttivo
-2. **Tornei su Vesus**: registrati su [vesus.org](https://vesus.org) e cerca il torneo
-3. **Tornei FSI**: consulta il [calendario federale](https://www.federscacchi.com/)
+Tornei a cui partecipano i nostri soci. Consulta [Vesus.org](https://vesus.org) per l'elenco completo dei tornei in Piemonte.

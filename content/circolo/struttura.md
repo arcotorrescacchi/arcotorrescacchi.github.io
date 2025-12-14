@@ -9,11 +9,12 @@ L'A.S.D. Arcotorre Scacchi Chieri è un'associazione sportiva dilettantistica re
 
 ### Organi Sociali
 
-- **Presidente**: [Nome Presidente]
-- **Vice Presidente**: [Nome Vice]
-- **Segretario**: [Nome Segretario]
-- **Tesoriere**: [Nome Tesoriere]
-- **Consiglieri**: [Nomi Consiglieri]
+- **Presidente**: Mario Andreoni
+- **Vice Presidente**: Carlo Ferretti
+- **Segretario**: Lorenzo Barba
+- **Tesoriere**: Daniele Corrocher
+- **Direttore Tecnico**: Carlo Ferretti
+- **Consiglieri**: Mario Gionco, Paolo Trentanove, Michele Caudana
 
 ### Documenti
 

@@ -8,7 +8,7 @@
 
 {{ .Content }}
 
-{{ if .Pages }}
+{{ if and .Pages (ne .Section "tornei") }}
 <div class="article-list">
     {{ range .Pages.ByDate.Reverse }}
     <article class="article-item">
