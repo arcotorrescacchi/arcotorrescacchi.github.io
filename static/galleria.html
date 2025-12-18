@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleria - Arcotorre Scacchi Chieri</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Raleway', 'Segoe UI', sans-serif;
+            background: #faf8f5;
+        }
+
+        .gallery-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .gallery-header {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #c41e3a;
+        }
+
+        .gallery-header h1 {
+            font-family: 'Crimson Pro', Georgia, serif;
+            font-size: 2.5rem;
+            color: #9a1830;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .gallery-header p {
+            color: #6b6b6b;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .gallery-intro {
+            margin-bottom: 1.5rem;
+            color: #3d3d3d;
+            line-height: 1.7;
+        }
+
+        /* Filtri anno */
+        .year-filters {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            background: white;
+            border: 2px solid #c41e3a;
+            color: #c41e3a;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background: #fef3f5;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: #c41e3a;
+            color: white;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gallery-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-card.hidden {
+            display: none;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-info {
+            padding: 1rem;
+        }
+
+        .gallery-info p {
+            margin: 0 0 0.5rem 0;
+            font-weight: 500;
+            color: #2a2a2a;
+            font-size: 1rem;
+        }
+
+        .gallery-info small {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+        }
+
+        .lightbox img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            font-weight: 300;
+            background: none;
+            border: none;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .lightbox-close:hover {
+            color: #d4a942;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #c41e3a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: #b8922e;
+        }
+
+        @media (max-width: 1024px) {
+            .gallery-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .gallery-wrapper {
+                padding: 2rem 1rem;
+            }
+
+            .gallery-header h1 {
+                font-size: 2rem;
+            }
+
+            .year-filters {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-wrapper">
+        <a href="/home" class="back-link">← Torna alla home</a>
+        
+        <div class="gallery-header">
+            <h1>Galleria</h1>
+            <p>Foto e momenti dal circolo</p>
+        </div>
+
+        <div class="gallery-intro">
+            I migliori momenti dell'Arcotorre Scacchi Chieri: tornei, eventi, e vita del circolo.
+        </div>
+
+        <!-- Filtri anno -->
+        <div class="year-filters">
+            <button class="filter-btn active" data-year="all">Tutte le foto</button>
+            <button class="filter-btn" data-year="2025">2025</button>
+            <button class="filter-btn" data-year="2024">2024</button>
+            <button class="filter-btn" data-year="2023">2023</button>
+			<button class="filter-btn" data-year="1000">...Oltre</button>
+        </div>
+
+        <div class="gallery-container">
+            <div class="gallery-card" data-img="/images/galleria/2025-Pizzata.jpg" data-year="2025">
+                <img src="/images/galleria/2025-Pizzata.jpg" alt="Pizzata di Natale 2025">
+                <div class="gallery-info">
+                    <p>Pizzata di Natale 2025</p>
+                    <small>2025</small>
+                </div>
+            </div>
+            
+            <div class="gallery-card" data-img="/images/galleria/2025-Citta_Gemelle-2025-10.jpg" data-year="2025">
+                <img src="/images/galleria/2025-Citta_Gemelle-2025-10.jpg" alt="Città gemelle 2025">
+                <div class="gallery-info">
+                    <p>Città gemelle 2025</p>
+                    <small>2025</small>
+                </div>
+            </div>
+            
+            <div class="gallery-card" data-img="/images/galleria/2025-Citta_di_Sport-2025-09.jpg" data-year="2025">
+                <img src="/images/galleria/2025-Citta_di_Sport-2025-09.jpg" alt="Città di Sport 2025">
+                <div class="gallery-info">
+                    <p>Città di Sport 2025</p>
+                    <small>2025</small>
+                </div>
+            </div>
+            
+            <div class="gallery-card" data-img="/images/galleria/2025-Corso_Pulito-2025-05.jpg" data-year="2025">
+                <img src="/images/galleria/2025-Corso_Pulito-2025-05.jpg" alt="Corso Pulito 2025">
+                <div class="gallery-info">
+                    <p>Corso Pulito 2025</p>
+                    <small>2025</small>
+                </div>
+            </div>
+            
+            <div class="gallery-card" data-img="/images/galleria/2025-memorial_Guidi-2025-04.jpg" data-year="2025">
+                <img src="/images/galleria/2025-memorial_Guidi-2025-04.jpg" alt="Memorial Guidi 2025">
+                <div class="gallery-info">
+                    <p>Memorial Guidi 2025</p>
+                    <small>2025</small>
+                </div>
+            </div>
+            
+            <div class="gallery-card" data-img="/images/galleria/2025-memorial_Guidi_winner-2025-04.jpg" data-year="2025">
+                <img src="/images/galleria/2025-memorial_Guidi_winner-2025-04.jpg" alt="Memorial Guidi 2025 (Barba Paolo)">
+                <div class="gallery-info">
+                    <p>Memorial Guidi 2025 (Barba Paolo)</p>
+                    <small>2025</small>
+                </div>
+            </div>
+			
+			
+			<!-- 2024 -->
+			
+			<div class="gallery-card" data-img="/images/galleria/2024-memorial_Guidi.jpg" data-year="2024">
+				<img src="/images/galleria/2024-memorial_Guidi.jpg" alt="Memorial Guidi 2024">
+				<div class="gallery-info">
+					<p>Memorial Guidi 2024</p>
+					<small>2024</small>
+				</div>
+			</div>
+			
+			<div class="gallery-card" data-img="/images/galleria/2024-lampo-4.jpg" data-year="2024">
+				<img src="/images/galleria/2024-lampo-4.jpg" alt="Lampo a 4 estivo">
+				<div class="gallery-info">
+					<p>Lampo a 4 alcolico</p>
+					<small>2024-07</small>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			<!-- OLTRE -->
+			
+			<div class="gallery-card" data-img="/images/galleria/1000-Immortali.jpg" data-year="1000">
+				<img src="/images/galleria/1000-Immortali.jpg" alt="Immortali">
+				<div class="gallery-info">
+					<p>Immortali 1982</p>
+					<small>1982</small>
+				</div>
+			</div>
+			
+			
+			
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close">&times;</button>
+            <img id="lightbox-img" src="" alt="">
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestione lightbox
+        const cards = document.querySelectorAll('.gallery-card');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.getElementById('lightbox-close');
+        
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                const imgSrc = this.getAttribute('data-img');
+                lightboxImg.src = imgSrc;
+                lightbox.classList.add('active');
+            });
+        });
+        
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            lightbox.classList.remove('active');
+        });
+        
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                this.classList.remove('active');
+            }
+        });
+
+        // Chiudi con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+            }
+        });
+
+        // Gestione filtri anno
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryCards = document.querySelectorAll('.gallery-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Rimuovi active da tutti i bottoni
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Aggiungi active al bottone cliccato
+                this.classList.add('active');
+
+                const selectedYear = this.getAttribute('data-year');
+
+                // Mostra/nascondi le card
+                galleryCards.forEach(card => {
+                    const cardYear = card.getAttribute('data-year');
+                    
+                    if (selectedYear === 'all') {
+                        card.classList.remove('hidden');
+                    } else if (cardYear === selectedYear) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    });
+    </script>
+</body>
+</html>

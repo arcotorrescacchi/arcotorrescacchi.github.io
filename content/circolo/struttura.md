@@ -18,9 +18,9 @@ L'A.S.D. Arcotorre Scacchi Chieri è un'associazione sportiva dilettantistica re
 
 ### Documenti
 
-- [Bilancio consuntivo 2024](/download/2025/consuntivo2024.pdf)
-- [Bilancio preventivo 2025](/download/2025/preventivo2025.pdf)
-- [Statuto sociale](/download/statuto.pdf)
+- <a href="/download/statuto.pdf" target="_blank">Statuto sociale</a>
+- <a href="/download/2024/consuntivo2024.pdf" target="_blank">Bilancio consuntivo 2024</a>
+- <a href="/download/2025/preventivo2025.pdf" target="_blank">Bilancio preventivo 2025</a>
 
 ### Affiliazioni
 

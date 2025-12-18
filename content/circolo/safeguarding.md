@@ -9,15 +9,18 @@ L'A.S.D. Arcotorre Scacchi Chieri adotta le linee guida della Federazione Scacch
 
 ### Responsabile Safeguarding
 
-**Nome Responsabile**  
+Ai sensi dell’Art. 16 del D.Lgs 39/2021 e del D.Lgs. 198/2006, il Safeguarding Officer (ReCAViD) dell’A.S.D. Arcotorre Scacchi di Chieri per il quadriennio 2025-2028 
+è la Sig.ra **Susana Perez**.  
+Per le eventuali evenienze è contattabile al seguente indirizzo email:
 Email: safeguarding@arcotorre.it
 
 ### Documenti
 
-- [Policy Safeguarding](/download/safeguarding/policy.pdf)
-- [Modello di organizzazione e controllo](/download/safeguarding/moc.pdf)
+- <a href="/download/safeguarding/moc.pdf" target="_blank">Modello di organizzazione e controllo</a>
+- <a href="/download/safeguarding/codice_condotta.pdf" target="_blank">Codice di Condotta</a>
+- <a href="/download/safeguarding/verbale_nomina.pdf" target="_blank">Verbale di nomina</a>
 
 ### Riferimenti
 
-- [Linee guida FSI](https://www.federscacchi.com/)
-- [Safe Sport](https://www.sport.governo.it/)
+- <a href="https://www.federscacchi.com/" target="_blank">Linee guida FSI</a>
+- <a href="https://www.sport.governo.it/" target="_blank">Safe Sport</a>

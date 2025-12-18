@@ -1,101 +1,163 @@
 {{ define "main" }}
-<header class="page-header">
-    <h1 class="page-title">{{ .Title }}</h1>
+<div class="container my-5">
+    <h1 class="display-4 mb-3">{{ .Title }}</h1>
     {{ with .Params.subtitle }}
-    <p class="page-subtitle">{{ . }}</p>
+        <p class="lead text-muted mb-5">{{ . }}</p>
     {{ end }}
-</header>
-
-<p>{{ .Content }}</p>
-
-<section class="gallery-section">
-    <div class="gallery-grid">
-        {{/* Cerca tutte le immagini nella cartella galleria */}}
-        {{ $images := .Resources.Match "*.{jpg,jpeg,png,gif,webp}" }}
-        {{ if $images }}
-            {{ range $images }}
-            <div class="gallery-item" onclick="openLightbox('{{ .RelPermalink }}', '{{ .Title }}')">
-                <img src="{{ .RelPermalink }}" alt="{{ .Title }}" loading="lazy">
-                <div class="gallery-item-overlay">
-                    <div class="gallery-item-title">{{ .Title }}</div>
-                </div>
-            </div>
-            {{ end }}
-        {{ else }}
-            {{/* Placeholder se non ci sono ancora immagini */}}
-            <div class="gallery-item">
-                <div class="gallery-placeholder">♟</div>
-                <div class="gallery-item-overlay">
-                    <div class="gallery-item-title">2° Memorial Guidi Colombi</div>
-                    <div class="gallery-item-date">Maggio 2024</div>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">♞</div>
-                <div class="gallery-item-overlay">
-                    <div class="gallery-item-title">Torneo di Natale</div>
-                    <div class="gallery-item-date">Dicembre 2023</div>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">♜</div>
-                <div class="gallery-item-overlay">
-                    <div class="gallery-item-title">Campionato Interno</div>
-                    <div class="gallery-item-date">2023</div>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">♛</div>
-                <div class="gallery-item-overlay">
-                    <div class="gallery-item-title">Serata sociale</div>
-                    <div class="gallery-item-date">2023</div>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">♚</div>
-                <div class="gallery-item-overlay">
-                    <div class="gallery-item-title">Simultanea</div>
-                    <div class="gallery-item-date">2022</div>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-placeholder">♝</div>
-                <div class="gallery-item-overlay">
-                    <div class="gallery-item-title">Corso giovani</div>
-                    <div class="gallery-item-date">2022</div>
-                </div>
-            </div>
-        {{ end }}
+    
+    <div class="text-center mb-5">
+        <button class="btn btn-lg btn-primary px-4 py-3 m-2 filter-btn active" onclick="filterPhotos('all')">
+            Tutte le foto
+        </button>
+        <button class="btn btn-lg btn-outline-primary px-4 py-3 m-2 filter-btn" onclick="filterPhotos('2025')">
+            2025
+        </button>
+        <button class="btn btn-lg btn-outline-primary px-4 py-3 m-2 filter-btn" onclick="filterPhotos('2024')">
+            2024
+        </button>
+        <button class="btn btn-lg btn-outline-primary px-4 py-3 m-2 filter-btn" onclick="filterPhotos('2023')">
+            2023
+        </button>
     </div>
-</section>
-
-<div class="info-section" style="margin-top: 2rem;">
-    <h3>📸 Vuoi contribuire?</h3>
-    <p>Hai foto di eventi del circolo? Inviale a <a href="mailto:arcotorre@gmail.com">arcotorre@gmail.com</a> e le pubblicheremo nella galleria!</p>
+    
+    <div class="row g-4 gallery-container">
+        {{ .Content }}
+    </div>
 </div>
 
-<!-- Lightbox per visualizzare le immagini ingrandite -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close">&times;</span>
-    <img id="lightbox-img" src="" alt="">
-    <div class="lightbox-caption" id="lightbox-caption"></div>
-</div>
+<style>
+.gallery-photo {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.gallery-photo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2) !important;
+}
+.filter-btn {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+</style>
 
 <script>
-function openLightbox(src, caption) {
-    document.getElementById('lightbox').classList.add('active');
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox-caption').textContent = caption;
-    document.body.style.overflow = 'hidden';
+function filterPhotos(year) {
+    var buttons = document.querySelectorAll('.filter-btn');
+    buttons.forEach(function(btn) {
+        btn.classList.remove('btn-primary', 'active');
+        btn.classList.add('btn-outline-primary');
+    });
+    event.target.classList.remove('btn-outline-primary');
+    event.target.classList.add('btn-primary', 'active');
+    
+    var photos = document.querySelectorAll('.gallery-photo');
+    photos.forEach(function(photo) {
+        var photoYear = photo.getAttribute('data-year');
+        if (year === 'all' || photoYear === year) {
+            photo.style.display = 'block';
+        } else {
+            photo.style.display = 'none';
+        }
+    });
 }
+</script>
 
-function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('active');
-    document.body.style.overflow = 'auto';
+<style>
+.modal { 
+    display: none; 
+    position: fixed; 
+    z-index: 9999; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.9); 
 }
+.modal.show { 
+    display: flex !important; 
+    align-items: center; 
+    justify-content: center; 
+}
+.modal-dialog { 
+    max-width: 90%; 
+    max-height: 90vh; 
+    position: relative;
+}
+.modal-content { 
+    background: transparent; 
+    border: none;
+    position: relative;
+}
+.modal-header { 
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: none;
+    border: none;
+    z-index: 10000;
+}
+.modal-body { 
+    padding: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-body img {
+    max-height: 85vh;
+    max-width: 100%;
+    object-fit: contain;
+}
+.btn-close { 
+    background: var(--chieri-red, #c41e3a); 
+    color: white; 
+    border: none; 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    font-size: 2rem; 
+    cursor: pointer; 
+    font-weight: bold;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-close:hover { 
+    background: var(--chieri-red-dark, #9a1830);
+    transform: scale(1.1);
+}
+</style>
 
+<script>
+// Apri modal
+document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function(trigger) {
+    trigger.addEventListener('click', function() {
+        var targetId = this.getAttribute('data-bs-target');
+        var modal = document.querySelector(targetId);
+        if (modal) modal.classList.add('show');
+    });
+});
+
+// Chiudi modal con X o click fuori
+document.querySelectorAll('.btn-close').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        this.closest('.modal').classList.remove('show');
+    });
+});
+
+document.querySelectorAll('.modal').forEach(function(modal) {
+    modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('show');
+        }
+    });
+});
+
+// Chiudi con ESC
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal.show').forEach(m => m.classList.remove('show'));
+    }
 });
 </script>
+
 {{ end }}

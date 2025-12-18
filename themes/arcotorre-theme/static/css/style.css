@@ -1126,3 +1126,137 @@ body {
         padding: 0.3rem 0.7rem;
     }
 }
+
+/* ====================================
+   BIBLIOTECA - BOOK CARDS STYLING
+   ==================================== */
+
+.book-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.book-card:hover {
+  border-color: #dc2626;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Copertina libro */
+.book-cover {
+  flex-shrink: 0;
+  width: 120px;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #1f2937;
+  font-size: 1.25rem;
+}
+
+.book-author {
+  color: #6b7280;
+  font-style: italic;
+  margin: 0 0 0.75rem 0;
+  font-size: 0.95rem;
+}
+
+.book-description {
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.book-status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Badge per stato disponibilità */
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.badge.available {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.badge.on-loan {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+/* Responsive: su mobile stack verticale, su desktop orizzontale */
+@media (max-width: 767px) {
+  .book-card {
+    flex-direction: column;
+  }
+  
+  .book-cover {
+    width: 100%;
+    max-width: 200px;
+    height: 280px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .book-card {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  .book-info {
+    flex: 1;
+  }
+  
+  .book-status {
+    align-items: flex-end;
+    margin-top: 0;
+  }
+}
+
+/* Sezioni categorie libri */
+.book-card + hr {
+  margin: 2.5rem 0;
+  border: none;
+  border-top: 2px solid #e5e7eb;
+}
+
+/* Email in grassetto nel testo */
+strong {
+  color: #dc2626;
+}

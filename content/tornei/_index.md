@@ -32,9 +32,9 @@ subtitle: "Prossimi tornei e iscrizioni"
 <p class="sezione-desc">Tornei organizzati dal circolo</p>
 
 <div class="torneo-card">
-    <h3 class="torneo-title">3° Memorial "Gaetano Guidi Colombi"</h3>
-    <p class="torneo-date">📅 Maggio 2025</p>
-    <p>Torneo semilampo aperto a tutti. Cadenza 10'+3".</p>
+    <h3 class="torneo-title">4° Memorial "Gaetano Guidi Colombi"</h3>
+    <p class="torneo-date">📅 2026</p>
+    <p>Torneo semilampo aperto a tutti. Cadenza 10'+3". &nbsp;&nbsp;  <b>[data da definire]</b> </p>
     <a href="#" class="vesus-link">🏆 Iscriviti su Vesus</a>
 </div>
 
@@ -44,4 +44,5 @@ subtitle: "Prossimi tornei e iscrizioni"
 
 ## Tornei esterni
 
-Tornei a cui partecipano i nostri soci. Consulta [Vesus.org](https://vesus.org) per l'elenco completo dei tornei in Piemonte.
+Tornei a cui partecipano i nostri soci. <br>
+Per l'elenco completo dei tornei in programma consulta <a href="https://vesus.org" class="bando-link" target="_blank">Vesus.org</a>

@@ -39,9 +39,14 @@ theme = "arcotorre-theme"
     weight = 4
   [[menu.main]]
     parent = "circolo"
+    name = "Biblioteca"
+    url = "/circolo/biblioteca/"
+    weight = 5	
+  [[menu.main]]
+    parent = "circolo"
     name = "Safeguarding"
     url = "/circolo/safeguarding/"
-    weight = 5
+    weight = 6
 
   [[menu.main]]
     identifier = "tornei"
@@ -49,13 +54,13 @@ theme = "arcotorre-theme"
     weight = 2
   [[menu.main]]
     parent = "tornei"
-    name = "C.I.S."
-    url = "/cis/"
+    name = "Tornei e bandi"
+    url = "/tornei/"
     weight = 1
   [[menu.main]]
     parent = "tornei"
-    name = "Tornei e bandi"
-    url = "/tornei/"
+    name = "C.I.S."
+    url = "/tornei/cis/"
     weight = 2
   [[menu.main]]
     parent = "tornei"
@@ -107,7 +112,7 @@ theme = "arcotorre-theme"
   [[menu.main]]
     identifier = "galleria"
     name = "Galleria"
-    url = "/galleria/"
+    url = "/galleria.html"
     weight = 5
 
   [[menu.main]]
