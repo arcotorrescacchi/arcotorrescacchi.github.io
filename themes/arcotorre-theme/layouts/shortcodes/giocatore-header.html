@@ -1,0 +1,10 @@
+<div class="giocatore-header">
+    <div class="giocatore-foto-grande">
+        <img src="{{ .Get "foto" }}" alt="{{ .Get "nome" }}">
+    </div>
+    <div class="giocatore-bio">
+        <h1>{{ .Get "nome" }}</h1>
+        <p class="anni">{{ .Get "anni" }}</p>
+        {{ .Inner | markdownify }}
+    </div>
+</div>

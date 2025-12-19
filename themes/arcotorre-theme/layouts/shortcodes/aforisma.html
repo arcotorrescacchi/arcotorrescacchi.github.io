@@ -1,0 +1,10 @@
+<div class="aforisma-item">
+    <p class="aforisma-testo">
+        {{ .Inner | markdownify }}
+    </p>
+    {{ with .Get "contesto" }}
+    <p class="aforisma-contesto">
+        {{ . }}
+    </p>
+    {{ end }}
+</div>

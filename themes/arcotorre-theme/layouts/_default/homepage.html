@@ -12,7 +12,7 @@
     <h2 class="section-title">Ultime Notizie</h2>
     
     <div class="news-grid">
-        {{ range first 4 (where .Site.RegularPages "Section" "articoli") }}
+        {{ range first 3 (where .Site.RegularPages "Section" "articoli") }}
         <article class="news-card">
             <div class="news-card-content">
                 <span class="news-date">{{ .Date.Format "2 January 2006" }}</span>

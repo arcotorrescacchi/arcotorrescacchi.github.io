@@ -1260,3 +1260,263 @@ body {
 strong {
   color: #dc2626;
 }
+
+
+/* ========================================
+   AFORISMI - STILI SEZIONE
+   ======================================== */
+
+
+.aforismi-intro {
+    background: var(--chieri-white);
+    padding: var(--space-md);
+    border-radius: 12px;
+    margin-bottom: var(--space-lg);
+    border-left: 5px solid var(--chieri-gold);
+}
+
+/* Griglia giocatori */
+.giocatori-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.giocatore-card {
+    background: var(--chieri-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.giocatore-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(196, 30, 58, 0.2);
+}
+
+/* FOTO PICCOLE - Dimensioni controllate */
+.giocatore-foto {
+    width: 100%;
+    height: 280px; /* Altezza fissa */
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, var(--chieri-red) 0%, var(--chieri-red-dark) 100%);
+}
+
+.giocatore-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Copre l'area mantenendo proporzioni */
+    object-position: center top; /* Centra sulla parte alta (visi) */
+    transition: transform 0.3s ease;
+}
+
+.giocatore-card:hover .giocatore-foto img {
+    transform: scale(1.1);
+}
+
+/* Placeholder per foto mancanti */
+.giocatore-foto-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--chieri-gold);
+    font-size: 5rem;
+}
+
+.giocatore-info {
+    padding: var(--space-md);
+    text-align: center;
+}
+
+.giocatore-nome {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin-bottom: var(--space-xs);
+}
+
+.giocatore-anni {
+    color: var(--chieri-red);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Pagina dettaglio giocatore */
+.giocatore-dettaglio {
+    background: var(--chieri-white);
+    border-radius: 12px;
+    padding: var(--space-lg);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.giocatore-header {
+    display: flex;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 3px solid var(--chieri-gold);
+}
+
+/* FOTO GRANDI - Dimensioni controllate */
+.giocatore-foto-grande {
+    flex-shrink: 0;
+    width: 280px; /* Larghezza fissa */
+    height: 400px; /* Altezza fissa */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    background: linear-gradient(135deg, var(--chieri-red) 0%, var(--chieri-red-dark) 100%);
+}
+
+.giocatore-foto-grande img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Copre l'area mantenendo proporzioni */
+    object-position: center top; /* Centra sulla parte alta (visi) */
+}
+
+.giocatore-bio {
+    flex: 1;
+}
+
+.giocatore-bio h1 {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--chieri-red-dark);
+    margin-bottom: var(--space-xs);
+}
+
+.giocatore-bio .anni {
+    font-size: 1.2rem;
+    color: var(--chieri-gold-dark);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    display: block;
+}
+
+.giocatore-bio p {
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+/* Lista aforismi */
+.aforismi-lista {
+    margin-top: var(--space-lg);
+}
+
+.aforismi-lista h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--chieri-red-dark);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--chieri-gold);
+}
+
+.aforisma-item {
+    background: var(--chieri-cream);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    border-radius: 8px;
+    border-left: 4px solid var(--chieri-red);
+    position: relative;
+}
+
+.aforisma-item::before {
+   content: "\201C"; 
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    font-size: 4rem;
+    color: var(--chieri-gold);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+}
+
+.aforisma-testo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--color-dark);
+    line-height: 1.7;
+    margin-bottom: var(--space-xs);
+    position: relative;
+    z-index: 1;
+}
+
+.aforisma-contesto {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    margin-top: var(--space-xs);
+}
+
+/* Link "torna indietro" */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--chieri-red);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    transition: all 0.2s;
+}
+
+.back-link:hover {
+    color: var(--chieri-gold-dark);
+    transform: translateX(-5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .giocatori-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: var(--space-sm);
+    }
+    
+    .giocatore-foto {
+        height: 220px; /* Ridotta per mobile */
+    }
+    
+    .giocatore-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .giocatore-foto-grande {
+        width: 100%;
+        max-width: 320px; /* Larghezza massima su mobile */
+        height: 450px;
+    }
+    
+    .giocatore-bio h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .giocatori-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .giocatore-foto {
+        height: 200px;
+    }
+    
+    .giocatore-foto-grande {
+        height: 400px;
+    }
+}
+
+
