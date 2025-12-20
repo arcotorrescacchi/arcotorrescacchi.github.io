@@ -883,11 +883,17 @@ body {
    RESPONSIVE
    ======================================== */
 
+/* ========================================
+   RESPONSIVE - MENU MOBILE CORRETTO
+   Sostituisci la sezione @media (max-width: 900px) esistente
+   ======================================== */
+
 @media (max-width: 900px) {
     .mobile-menu-toggle {
         display: flex;
     }
     
+    /* Menu principale mobile */
     .main-nav {
         position: absolute;
         top: var(--header-height);
@@ -901,6 +907,7 @@ body {
     
     .main-nav.active {
         max-height: 100vh;
+        overflow-y: auto; /* Permette lo scroll */
     }
     
     .nav-list {
@@ -908,19 +915,50 @@ body {
         padding: var(--space-sm);
     }
     
+    .nav-item {
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    /* Link principali più grandi su mobile */
+    .nav-link {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    
+    /* DROPDOWN SU MOBILE - NASCOSTI DI DEFAULT */
     .dropdown {
         position: static;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
+        opacity: 0;
+        visibility: hidden;
+        max-height: 0;
+        overflow: hidden;
         background: rgba(255,255,255,0.05);
         box-shadow: none;
         border-radius: 0;
+        padding-left: 0;
+        transition: all 0.3s ease;
+    }
+    
+    /* Dropdown aperto su mobile */
+    .has-dropdown.active .dropdown {
+        opacity: 1;
+        visibility: visible;
+        max-height: 500px;
         padding-left: var(--space-md);
+    }
+    
+    /* Freccia che ruota quando si apre */
+    .has-dropdown > .nav-link::after {
+        transition: transform 0.3s ease;
+    }
+    
+    .has-dropdown.active > .nav-link::after {
+        transform: rotate(180deg);
     }
     
     .dropdown li a {
         color: var(--chieri-cream);
+        padding: 0.75rem var(--space-sm);
     }
     
     .dropdown li a:hover {
@@ -928,6 +966,7 @@ body {
         color: var(--chieri-gold);
     }
     
+    /* Hero più compatto su mobile */
     .hero-content {
         flex-direction: column;
         gap: var(--space-xs);
@@ -942,10 +981,12 @@ body {
         margin-top: var(--space-xs);
     }
     
+    /* News grid a colonna singola */
     .news-grid {
         grid-template-columns: 1fr;
     }
     
+    /* Gallery più piccola */
     .gallery-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
@@ -974,6 +1015,7 @@ body {
         gap: var(--space-sm);
     }
 }
+
 
 
 /* Logo storico nel footer */
