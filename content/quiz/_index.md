@@ -1,6 +1,6 @@
 ---
 title: "Quiz Settimanale"
-date: 2024-12-14
+date: 2025-12-20
 description: "Risolvi il diagramma della settimana e scala la classifica!"
 ---
 
@@ -10,7 +10,7 @@ description: "Risolvi il diagramma della settimana e scala la classifica!"
 
 ---
 
-## Quiz #1 - 14 Dicembre 2024
+## Quiz #1 - 20 Dicembre 2025
 
 **Il Nero muove e vince**
 
@@ -22,7 +22,7 @@ description: "Risolvi il diagramma della settimana e scala la classifica!"
 
 ---
 
-📅 **Scadenza:** Venerdì 20 Dicembre 2024, ore 23:59  
+📅 **Scadenza:** Venerdì 26 Dicembre 2025, ore 23:59  
 ⏱️ **Tempo rimanente:** <span id="countdown">7 giorni</span>
 
 ---
@@ -72,7 +72,7 @@ Scrivi la sequenza di mosse in notazione algebrica (es. "1...Dxh2+ 2.Rxh2 Th8#")
 
 <script>
 function updateCountdown() {
-    const deadline = new Date('2024-12-20T23:59:59');
+    const deadline = new Date('2025-12-26T23:59:59');
     const now = new Date();
     const diff = deadline - now;
     
