@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partita Collettiva - Arcotorre Scacchi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Raleway', sans-serif;
+            background: #faf8f5;
+        }
+        .page-nav {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .page-nav a {
+            color: #c41e3a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        .page-nav a:hover {
+            color: #d4a942;
+        }
+    </style>
+</head>
+<body>
+    <nav class="page-nav">
+        <a href="/">← Torna alla home</a>
+    </nav>
+    
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const PartitaCollettiva = () => {
+          const [moves, setMoves] = useState([]);
+          const [userMove, setUserMove] = useState('');
+          const [password, setPassword] = useState('');
+          const [message, setMessage] = useState('');
+          const [isVotingOpen, setIsVotingOpen] = useState(true);
+          const [turnNumber, setTurnNumber] = useState(1);
+          const [gameLink, setGameLink] = useState('');
+          const [loading, setLoading] = useState(true);
+          
+          const [showAdminModal, setShowAdminModal] = useState(false);
+          const [adminAction, setAdminAction] = useState(null);
+          const [adminPassword, setAdminPassword] = useState('');
+          const [adminMessage, setAdminMessage] = useState('');
+          const [showLinkModal, setShowLinkModal] = useState(false);
+          const [newGameLink, setNewGameLink] = useState('');
+
+          const VOTE_PASSWORD = 'arcotorre';
+          const ADMIN_PASSWORD = 'adat';
+
+          useEffect(() => {
+            loadGameData();
+          }, []);
+
+          const loadGameData = async () => {
+            try {
+              setLoading(true);
+              
+              const configResult = await window.storage.get('partita_config', true);
+              if (configResult) {
+                const config = JSON.parse(configResult.value);
+                setTurnNumber(config.turnNumber || 1);
+                setIsVotingOpen(config.isVotingOpen ?? true);
+                setGameLink(config.gameLink || '');
+                
+                const movesResult = await window.storage.get(`partita_moves_t${config.turnNumber}`, true);
+                if (movesResult) {
+                  setMoves(JSON.parse(movesResult.value));
+                } else {
+                  setMoves([]);
+                }
+              } else {
+                setMoves([]);
+              }
+            } catch (error) {
+              console.log('Prima partita:', error);
+              setMoves([]);
+            } finally {
+              setLoading(false);
+            }
+          };
+
+          const saveGameData = async (newMoves) => {
+            try {
+              await window.storage.set(
+                `partita_moves_t${turnNumber}`,
+                JSON.stringify(newMoves),
+                true
+              );
+              await window.storage.set(
+                'partita_config',
+                JSON.stringify({
+                  turnNumber,
+                  isVotingOpen,
+                  gameLink
+                }),
+                true
+              );
+            } catch (error) {
+              console.error('Errore salvataggio:', error);
+            }
+          };
+
+          const handleVote = async () => {
+            if (!userMove.trim()) {
+              setMessage('⚠️ Inserisci una mossa!');
+              return;
+            }
+
+            if (password !== VOTE_PASSWORD) {
+              setMessage('❌ Password errata!');
+              return;
+            }
+
+            if (!isVotingOpen) {
+              setMessage('⏸️ Le votazioni sono chiuse per questo turno');
+              return;
+            }
+
+            const normalizedMove = userMove.trim().replace(/\s+/g, '');
+            
+            const existingMoveIndex = moves.findIndex(
+              m => m.move.toLowerCase() === normalizedMove.toLowerCase()
+            );
+
+            let newMoves;
+            if (existingMoveIndex >= 0) {
+              newMoves = [...moves];
+              newMoves[existingMoveIndex].votes += 1;
+              setMessage(`✅ Voto aggiunto a "${normalizedMove}"! (${newMoves[existingMoveIndex].votes} voti totali)`);
+            } else {
+              newMoves = [...moves, { move: normalizedMove, votes: 1 }];
+              setMessage(`✅ Nuova mossa "${normalizedMove}" proposta!`);
+            }
+
+            newMoves.sort((a, b) => b.votes - a.votes);
+            setMoves(newMoves);
+            await saveGameData(newMoves);
+            
+            setUserMove('');
+            setPassword('');
+            setTimeout(() => setMessage(''), 3000);
+          };
+
+          const openAdminModal = (action) => {
+            setAdminAction(action);
+            setAdminPassword('');
+            setAdminMessage('');
+            
+            if (action === 'setLink') {
+              setShowLinkModal(true);
+              setNewGameLink(gameLink);
+            } else {
+              setShowAdminModal(true);
+            }
+          };
+
+          const executeAdminAction = async () => {
+            if (adminPassword !== ADMIN_PASSWORD) {
+              setAdminMessage('❌ Password errata!');
+              return;
+            }
+
+            if (adminAction === 'toggle') {
+              const newState = !isVotingOpen;
+              setIsVotingOpen(newState);
+              await window.storage.set(
+                'partita_config',
+                JSON.stringify({
+                  turnNumber,
+                  isVotingOpen: newState,
+                  gameLink
+                }),
+                true
+              );
+              setAdminMessage(newState ? '✅ Votazioni riaperte!' : '⏸️ Votazioni chiuse!');
+              setTimeout(async () => {
+                await loadGameData();
+                setShowAdminModal(false);
+                setAdminPassword('');
+              }, 1500);
+            } else if (adminAction === 'next') {
+              const newTurn = turnNumber + 1;
+              setTurnNumber(newTurn);
+              setMoves([]);
+              setIsVotingOpen(true);
+              
+              await window.storage.set(
+                'partita_config',
+                JSON.stringify({
+                  turnNumber: newTurn,
+                  isVotingOpen: true,
+                  gameLink
+                }),
+                true
+              );
+              
+              setAdminMessage(`✅ Turno ${newTurn} iniziato!`);
+              setTimeout(async () => {
+                await loadGameData();
+                setShowAdminModal(false);
+                setAdminPassword('');
+              }, 1500);
+            }
+          };
+
+          const handleSetLink = async () => {
+            if (adminPassword !== ADMIN_PASSWORD) {
+              setAdminMessage('❌ Password errata!');
+              return;
+            }
+
+            const trimmedLink = newGameLink.trim();
+            
+            // Validazione base URL Lichess
+            if (!trimmedLink || !trimmedLink.includes('lichess.org/')) {
+              setAdminMessage('❌ Inserisci un link Lichess valido! (es: https://lichess.org/abc123)');
+              return;
+            }
+
+            setGameLink(trimmedLink);
+            await window.storage.set(
+              'partita_config',
+              JSON.stringify({
+                turnNumber,
+                isVotingOpen,
+                gameLink: trimmedLink
+              }),
+              true
+            );
+            
+            setAdminMessage('✅ Link salvato!');
+            setTimeout(async () => {
+              await loadGameData();
+              setShowLinkModal(false);
+              setAdminPassword('');
+              setNewGameLink('');
+              setAdminMessage('');
+            }, 1500);
+          };
+
+          if (loading) {
+            return (
+              <div style={styles.container}>
+                <div style={styles.loading}>Caricamento...</div>
+              </div>
+            );
+          }
+
+          return (
+            <div style={styles.container}>
+              <div style={styles.header}>
+                <h1 style={styles.title}>♟️ Partita del Circolo</h1>
+                <div style={styles.turnBadge}>Turno {turnNumber}</div>
+              </div>
+
+              <div style={{
+                ...styles.statusBanner,
+                backgroundColor: isVotingOpen ? '#dcfce7' : '#fef3c7',
+                border: isVotingOpen ? '2px solid #86efac' : '2px solid #fcd34d'
+              }}>
+                {isVotingOpen ? '✅ Votazioni aperte' : '⏸️ Votazioni chiuse'}
+              </div>
+
+              {gameLink ? (
+                <div style={styles.gameLinkSection}>
+                  <a 
+                    href={gameLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={styles.linkButton}
+                  >
+                    🔗 Apri partita su Lichess
+                  </a>
+                  <div style={styles.linkHint}>
+                    Clicca per vedere la partita e la posizione corrente
+                  </div>
+                </div>
+              ) : (
+                <div style={styles.noLink}>
+                  ⚠️ Nessuna partita configurata. Usa il pannello admin per impostare il link Lichess.
+                </div>
+              )}
+
+              {gameLink ? (
+                <div style={styles.voteSection}>
+                  <h2 style={styles.sectionTitle}>Proponi la tua mossa</h2>
+                  
+                  <input
+                    type="text"
+                    placeholder="es: e4, Cf3, O-O, Dxe5..."
+                    value={userMove}
+                    onChange={(e) => setUserMove(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleVote()}
+                    style={styles.input}
+                    disabled={!isVotingOpen}
+                  />
+
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleVote()}
+                    style={{...styles.input, marginTop: '10px'}}
+                    disabled={!isVotingOpen}
+                  />
+
+                  <button
+                    onClick={handleVote}
+                    style={{
+                      ...styles.voteButton,
+                      opacity: isVotingOpen ? 1 : 0.5,
+                      cursor: isVotingOpen ? 'pointer' : 'not-allowed'
+                    }}
+                    disabled={!isVotingOpen}
+                  >
+                    🗳️ Vota questa mossa
+                  </button>
+
+                  {message && (
+                    <div style={styles.message}>{message}</div>
+                  )}
+
+                  <div style={styles.hint}>
+                    💡 Password per votare: <code style={styles.code}>arcotorre</code>
+                  </div>
+                </div>
+              ) : null}
+
+              {gameLink ? (
+                <div style={styles.resultsSection}>
+                  <h2 style={styles.sectionTitle}>
+                    📊 Mosse proposte ({moves.length})
+                  </h2>
+
+                  {moves.length === 0 ? (
+                    <div style={styles.noMoves}>
+                      Nessuna mossa proposta. Sii il primo! 🎯
+                    </div>
+                  ) : (
+                    <div style={styles.movesList}>
+                      {moves.map((move, index) => (
+                        <div key={index} style={styles.moveItem}>
+                          <div style={styles.moveRank}>#{index + 1}</div>
+                          <div style={styles.moveNotation}>{move.move}</div>
+                          <div style={styles.moveVotes}>
+                            <div style={styles.voteBar}>
+                              <div 
+                                style={{
+                                  ...styles.voteBarFill,
+                                  width: `${(move.votes / moves[0].votes) * 100}%`
+                                }}
+                              />
+                            </div>
+                            <span style={styles.voteCount}>
+                              {move.votes} {move.votes === 1 ? 'voto' : 'voti'}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : null}
+
+              <div style={styles.adminPanel}>
+                <h3 style={styles.adminTitle}>⚙️ Amministrazione</h3>
+                <div style={styles.adminButtons}>
+                  <button onClick={() => openAdminModal('toggle')} style={styles.adminButton}>
+                    {isVotingOpen ? '⏸️ Chiudi votazioni' : '▶️ Apri votazioni'}
+                  </button>
+                  <button onClick={() => openAdminModal('next')} style={styles.adminButton}>
+                    ⏭️ Turno successivo
+                  </button>
+                  <button onClick={() => openAdminModal('setLink')} style={styles.adminButton}>
+                    🔗 Imposta link Lichess
+                  </button>
+                </div>
+              </div>
+
+              <div style={styles.footer}>
+                <h3 style={styles.footerTitle}>📋 Come funziona</h3>
+                <div style={styles.workflowSteps}>
+                  <div style={styles.step}><strong>1.</strong> I soci votano la mossa</div>
+                  <div style={styles.step}><strong>2.</strong> Admin chiude le votazioni</div>
+                  <div style={styles.step}><strong>3.</strong> Admin gioca la mossa più votata su Lichess</div>
+                  <div style={styles.step}><strong>4.</strong> L'avversario risponde</div>
+                  <div style={styles.step}><strong>5.</strong> Admin passa al turno successivo</div>
+                </div>
+                <p style={styles.footerText}>
+                  I voti sono condivisi tra tutti i membri in tempo reale.
+                </p>
+              </div>
+
+              {showAdminModal && (
+                <div style={styles.modalOverlay} onClick={() => setShowAdminModal(false)}>
+                  <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+                    <h3 style={styles.modalTitle}>
+                      {adminAction === 'toggle' 
+                        ? (isVotingOpen ? '⏸️ Chiudi votazioni' : '▶️ Apri votazioni')
+                        : '⏭️ Turno successivo'}
+                    </h3>
+                    
+                    {adminAction === 'next' && (
+                      <div style={styles.modalInfo}>
+                        <p>Passare al turno {turnNumber + 1}?</p>
+                        <ul style={styles.modalList}>
+                          <li>Mosse del turno {turnNumber} archiviate</li>
+                          <li>Lista mosse resettata</li>
+                          <li>Votazioni riaperte</li>
+                        </ul>
+                      </div>
+                    )}
+                    
+                    <input
+                      type="password"
+                      placeholder="Password amministratore"
+                      value={adminPassword}
+                      onChange={(e) => setAdminPassword(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && executeAdminAction()}
+                      style={styles.modalInput}
+                      autoFocus
+                    />
+                    
+                    {adminMessage && (
+                      <div style={styles.modalMessage}>{adminMessage}</div>
+                    )}
+                    
+                    <div style={styles.modalButtons}>
+                      <button onClick={executeAdminAction} style={styles.modalButtonConfirm}>
+                        Conferma
+                      </button>
+                      <button onClick={() => setShowAdminModal(false)} style={styles.modalButtonCancel}>
+                        Annulla
+                      </button>
+                    </div>
+                    
+                    <div style={styles.modalHint}>
+                      
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {showLinkModal && (
+                <div style={styles.modalOverlay} onClick={() => setShowLinkModal(false)}>
+                  <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+                    <h3 style={styles.modalTitle}>🔗 Imposta link Lichess</h3>
+                    
+                    <input
+                      type="text"
+                      placeholder="https://lichess.org/abc123"
+                      value={newGameLink}
+                      onChange={(e) => setNewGameLink(e.target.value)}
+                      style={styles.modalInput}
+                    />
+                    
+                    <input
+                      type="password"
+                      placeholder="Password amministratore"
+                      value={adminPassword}
+                      onChange={(e) => setAdminPassword(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && handleSetLink()}
+                      style={{...styles.modalInput, marginTop: '10px'}}
+                      autoFocus
+                    />
+                    
+                    {adminMessage && (
+                      <div style={styles.modalMessage}>{adminMessage}</div>
+                    )}
+                    
+                    <div style={styles.modalButtons}>
+                      <button onClick={handleSetLink} style={styles.modalButtonConfirm}>
+                        Salva
+                      </button>
+                      <button onClick={() => setShowLinkModal(false)} style={styles.modalButtonCancel}>
+                        Annulla
+                      </button>
+                    </div>
+                    
+                    <div style={styles.modalHint}>
+                      
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        };
+
+        const styles = {
+          container: { maxWidth: '800px', margin: '0 auto', padding: '20px', fontFamily: "'Raleway', sans-serif" },
+          loading: { textAlign: 'center', padding: '60px 20px', fontSize: '1.2rem', color: '#6b7280' },
+          header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' },
+          title: { fontSize: '2rem', color: '#c41e3a', margin: 0, fontFamily: "'Crimson Pro', serif" },
+          turnBadge: { padding: '8px 16px', backgroundColor: '#c41e3a', color: 'white', borderRadius: '20px', fontWeight: '600', fontSize: '0.9rem' },
+          statusBanner: { padding: '12px', textAlign: 'center', borderRadius: '8px', fontWeight: '600', marginBottom: '20px' },
+          gameLinkSection: { marginBottom: '30px', textAlign: 'center' },
+          linkButton: { display: 'inline-block', padding: '14px 28px', backgroundColor: '#d4a942', color: '#2a2a2a', textDecoration: 'none', borderRadius: '8px', fontWeight: '600', fontSize: '1.1rem', transition: 'all 0.2s', boxShadow: '0 2px 8px rgba(212, 169, 66, 0.3)' },
+          linkHint: { marginTop: '12px', fontSize: '0.9rem', color: '#6b7280', fontStyle: 'italic' },
+          noLink: { textAlign: 'center', padding: '30px', backgroundColor: '#fef3c7', border: '2px solid #fcd34d', borderRadius: '12px', marginBottom: '30px', color: '#92400e', fontWeight: '600' },
+          voteSection: { backgroundColor: 'white', padding: '30px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', marginBottom: '30px' },
+          sectionTitle: { fontSize: '1.3rem', color: '#2a2a2a', marginBottom: '20px', fontFamily: "'Crimson Pro', serif" },
+          input: { width: '100%', padding: '12px', fontSize: '1rem', border: '2px solid #e5e7eb', borderRadius: '8px', boxSizing: 'border-box' },
+          voteButton: { width: '100%', padding: '14px', backgroundColor: '#c41e3a', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1rem', fontWeight: '600', marginTop: '15px', transition: 'all 0.2s' },
+          message: { marginTop: '15px', padding: '12px', backgroundColor: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px', textAlign: 'center', fontWeight: '500' },
+          hint: { marginTop: '15px', fontSize: '0.9rem', color: '#6b7280', textAlign: 'center' },
+          code: { backgroundColor: '#f3f4f6', padding: '2px 6px', borderRadius: '4px', fontFamily: 'monospace' },
+          resultsSection: { backgroundColor: 'white', padding: '30px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', marginBottom: '30px' },
+          noMoves: { textAlign: 'center', padding: '40px 20px', color: '#6b7280' },
+          movesList: { display: 'flex', flexDirection: 'column', gap: '12px' },
+          moveItem: { display: 'grid', gridTemplateColumns: '50px 1fr 200px', alignItems: 'center', gap: '15px', padding: '15px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' },
+          moveRank: { fontSize: '1.2rem', fontWeight: '700', color: '#c41e3a' },
+          moveNotation: { fontSize: '1.3rem', fontWeight: '600', fontFamily: 'monospace', color: '#2a2a2a' },
+          moveVotes: { display: 'flex', alignItems: 'center', gap: '10px' },
+          voteBar: { flex: 1, height: '8px', backgroundColor: '#e5e7eb', borderRadius: '4px', overflow: 'hidden' },
+          voteBarFill: { height: '100%', backgroundColor: '#c41e3a', transition: 'width 0.3s' },
+          voteCount: { fontSize: '0.9rem', fontWeight: '600', color: '#6b7280', whiteSpace: 'nowrap' },
+          adminPanel: { backgroundColor: '#fef3c7', padding: '20px', borderRadius: '12px', border: '2px solid #fcd34d', marginBottom: '30px' },
+          adminTitle: { fontSize: '1.1rem', color: '#92400e', marginBottom: '15px' },
+          adminButtons: { display: 'flex', gap: '10px', flexWrap: 'wrap' },
+          adminButton: { padding: '10px 16px', backgroundColor: 'white', border: '2px solid #d4a942', borderRadius: '6px', cursor: 'pointer', fontWeight: '600', fontSize: '0.9rem' },
+          footer: { textAlign: 'center', padding: '30px 20px', borderTop: '2px solid #e5e7eb', backgroundColor: '#f9fafb', borderRadius: '12px' },
+          footerTitle: { fontSize: '1.2rem', color: '#c41e3a', marginBottom: '20px', fontFamily: "'Crimson Pro', serif" },
+          workflowSteps: { display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '600px', margin: '0 auto 20px', textAlign: 'left' },
+          step: { padding: '12px 16px', backgroundColor: 'white', borderLeft: '4px solid #d4a942', borderRadius: '4px', fontSize: '0.95rem', color: '#374151' },
+          footerText: { color: '#6b7280', fontSize: '0.9rem', margin: 0 },
+          modalOverlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 },
+          modal: { backgroundColor: 'white', borderRadius: '12px', padding: '30px', maxWidth: '500px', width: '90%', boxShadow: '0 10px 40px rgba(0,0,0,0.3)' },
+          modalTitle: { fontSize: '1.4rem', color: '#c41e3a', marginBottom: '20px', fontFamily: "'Crimson Pro', serif" },
+          modalInfo: { marginBottom: '20px', color: '#374151' },
+          modalList: { marginTop: '10px', marginLeft: '20px', color: '#6b7280' },
+          modalInput: { width: '100%', padding: '12px', fontSize: '1rem', border: '2px solid #e5e7eb', borderRadius: '8px', boxSizing: 'border-box' },
+          modalMessage: { marginTop: '15px', padding: '12px', backgroundColor: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px', textAlign: 'center', fontWeight: '500' },
+          modalButtons: { display: 'flex', gap: '10px', marginTop: '20px' },
+          modalButtonConfirm: { flex: 1, padding: '12px', backgroundColor: '#c41e3a', color: 'white', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer' },
+          modalButtonCancel: { flex: 1, padding: '12px', backgroundColor: '#e5e7eb', color: '#374151', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer' },
+          modalHint: { marginTop: '15px', fontSize: '0.85rem', color: '#6b7280', textAlign: 'center' }
+        };
+
+        ReactDOM.render(<PartitaCollettiva />, document.getElementById('root'));
+    </script>
+</body>
+</html>
