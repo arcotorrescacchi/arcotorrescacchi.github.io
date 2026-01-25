@@ -15,7 +15,8 @@
         {{ range first 3 (where .Site.RegularPages "Section" "articoli") }}
         <article class="news-card">
             <div class="news-card-content">
-                <span class="news-date">{{ .Date.Format "2 January 2006" }}</span>
+                <!--<span class="news-date">{{ .Date.Format "2 January 2006" }}</span>-->
+				<span class="news-date">{{ .Date.Format "02/01/2006" }}</span>
                 <h3 class="news-title">{{ .Title }}</h3>
                 <p class="news-excerpt">{{ .Summary | truncate 150 }}</p>
                 <a href="{{ .Permalink }}" class="news-link">Leggi tutto →</a>
