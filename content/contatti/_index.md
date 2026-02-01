@@ -11,7 +11,7 @@ Via Papa Giovanni XXIII, 8
 
 ## Email
 
-📧 [info@arcotorre.it](mailto:info@arcotorre.it)
+📧 [arcotorre@gmail.com](mailto:arcotorre@gmail.com)
 
 ## Orari
 
@@ -34,4 +34,4 @@ La sede si trova nel centro di Chieri, facilmente raggiungibile sia in auto che 
 
 ## Modulo di contatto
 
-Per informazioni, scrivici a [info@arcotorre.it](mailto:info@arcotorre.it) e ti risponderemo al più presto.
+Per informazioni, scrivici a [arcotorre@gmail.com](mailto:arcotorre@gmail.com) e ti risponderemo al più presto.
