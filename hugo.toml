@@ -106,14 +106,17 @@ theme = "arcotorre-theme"
   [[menu.main]]
     identifier = "articoli"
     name = "Articoli"
-    url = "/articoli/"
     weight = 4
-	
+  [[menu.main]]
+    parent = "articoli"
+    name = "Tutti gli Articoli"
+    url = "/articoli/"
+    weight = 1
   [[menu.main]]
 	parent = "articoli"
 	name = "Aforismi"
 	url = "/articoli/aforismi/"
-	weight = 1
+	weight = 2
 
   [[menu.main]]
     identifier = "galleria"
