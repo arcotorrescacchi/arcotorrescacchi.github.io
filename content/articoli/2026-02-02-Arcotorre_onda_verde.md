@@ -1,6 +1,6 @@
 ---
 title: "Arcotorre Onda Verde!"
-date: 2025-02-02
+date: 2026-02-02
 description: "Ottimi risultati per Lorenzo Venezia e Andrea Cicognini alla seconda tappa del Circuito regionale Under 12 a Nichelino"
 tags: ["tornei", "giovanili", "under 12"]
 ---
